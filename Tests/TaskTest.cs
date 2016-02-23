@@ -69,11 +69,12 @@ namespace ToDoList
     }
 
     [Fact]
-    public void Test_FindFindsTaskInDatabase()
+    public void Test_Find_FindsTaskInDatabase()
     {
      //Arrange
      Task testTask = new Task("Mow the lawn", 1, new DateTime(2014, 01, 01));
      testTask.Save();
+
 
      //Act
      Task foundTask = Task.Find(testTask.GetId());
@@ -81,8 +82,6 @@ namespace ToDoList
      //Assert
      Assert.Equal(testTask, foundTask);
     }
-
-
 
     public void Dispose()
     {
