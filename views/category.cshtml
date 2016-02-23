@@ -9,7 +9,7 @@ else
   <ol>
     @foreach (var task in @Model["tasks"])
     {
-      <li>@task.GetDescription()</li>
+      <li>@task.GetDescription() due by @task.GetDateTime() </li>
     }
   </ol>
 }
