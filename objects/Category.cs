@@ -101,5 +101,46 @@ namespace ToDoList
       }
     }
 
+    public static void DeleteAll()
+    {
+     SqlConnection conn = DB.Connection();
+     conn.Open();
+     SqlCommand cmd = new SqlCommand("DELETE FROM categories;", conn);
+     cmd.ExecuteNonQuery();
+    }
+
+    public static Category Find (int id)
+    {
+      SqlConnection conn = DB.Connection();
+      SqlDataReader rdr = null;
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("select * from categories where id = @CategoryId;", conn);
+      SqlParameter categoryIdParameter = new SqlParameter();
+      categoryIdParameter.ParameterName = "@CategoryId";
+      categoryIdParameter.Value = id.ToString();
+      cmd.Parameters.Add(categoryIdParameter);
+      rdr = cmd.ExecuteReader();
+
+      int foundCategoryId = 0;
+      string foundCategoryDescription = null;
+
+      while (rdr.Read())
+      {
+        foundCategoryId = rdr.GetInt32(0);
+        foundCategoryDescription = rdr.GetString(1);
+      }
+      Category foundCategory = new Category(foundCategoryDescription, foundCategoryId);
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return foundCategory;
+    }
   }
 }
