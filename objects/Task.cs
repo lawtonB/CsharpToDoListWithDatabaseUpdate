@@ -32,7 +32,8 @@ namespace ToDoList
         Task newTask = (Task) otherTask;
         bool idEquality = (this.GetId() == newTask.GetId());
         bool descriptionEquality = (this.GetDescription() == newTask.GetDescription());
-        return (descriptionEquality && descriptionEquality);
+        bool dateEquality = (this.GetDate() == newTask.GetDate());
+        return (descriptionEquality && descriptionEquality && dateEquality);
       }
     }
 
@@ -57,11 +58,11 @@ namespace ToDoList
     {
       _description = newDescription;
     }
-    public string GetDate()
+    public DateTime GetDate()
     {
       return _dueDate;
     }
-    public void SetDate(string dueDate)
+    public void SetDate(DateTime dueDate)
     {
       _dueDate = dueDate;
     }
@@ -81,8 +82,8 @@ namespace ToDoList
         int taskId = rdr.GetInt32(0);
         string taskDescription = rdr.GetString(1);
         int taskCategoryId = rdr.GetInt32(2);
-        string taskDueDate = rdr.GetString(3);
-        Task newTask = new Task(taskDescription, taskCategoryId, taskId, taskDueDate);
+        DateTime taskDueDate = rdr.GetDateTime(3);
+        Task newTask = new Task(taskDescription, taskCategoryId, taskDueDate, taskId);
         AllTasks.Add(newTask);
       }
       if (rdr != null)
@@ -147,16 +148,16 @@ namespace ToDoList
       int foundTaskId = 0;
       string foundTaskDescription = null;
       int foundTaskCategoryId = 0;
-      int foundDueDate = 0;
+      DateTime foundDueDate = new DateTime(1996, 01, 01);
 
       while(rdr.Read())
       {
         foundTaskId = rdr.GetInt32(0);
         foundTaskDescription = rdr.GetString(1);
         foundTaskCategoryId = rdr.GetInt32(2);
-        foundDueDate = rdr.GetString(3);
+        foundDueDate = rdr.GetDateTime(3);
       }
-      Task foundTask = new Task(foundTaskDescription, foundTaskCategoryId, foundTaskId, foundDueDate);
+      Task foundTask = new Task(foundTaskDescription, foundTaskCategoryId, foundDueDate, foundTaskId);
 
       if (rdr != null)
       {
