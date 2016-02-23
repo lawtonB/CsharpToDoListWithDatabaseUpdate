@@ -76,7 +76,7 @@ namespace ToDoList
     public void Save()
     {
       SqlConnection conn = DB.Connection();
-      SqlDataReader rdr = null;
+      SqlDataReader rdr;
       conn.Open();
 
       SqlCommand cmd = new SqlCommand("insert into categories (name) output inserted.id values (@CategoryName);", conn);
@@ -149,9 +149,9 @@ namespace ToDoList
       SqlDataReader rdr = null;
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("SELECT * FROM tasks WHERE categoryId = @category_id;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT * FROM tasks WHERE category_id = @category_id;", conn);
       SqlParameter categoryIdParameter = new SqlParameter();
-      categoryIdParameter.ParameterName = "@CategoryId";
+      categoryIdParameter.ParameterName = "@category_id";
       categoryIdParameter.Value = this.GetId();
       cmd.Parameters.Add(categoryIdParameter);
       rdr = cmd.ExecuteReader();
