@@ -103,7 +103,7 @@ namespace ToDoList
       SqlDataReader rdr;
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("INSERT INTO tasks (description, category_id) OUTPUT INSERTED.id VALUES (@TaskDescription, @TaskCategoryId);", conn);
+      SqlCommand cmd = new SqlCommand("INSERT INTO tasks (description, category_id, due_date) OUTPUT INSERTED.id VALUES (@TaskDescription, @TaskCategoryId, @TaskDueDate);", conn);
 
       SqlParameter descriptionParameter = new SqlParameter();
       descriptionParameter.ParameterName = "@TaskDescription";
@@ -113,8 +113,13 @@ namespace ToDoList
       categoryIdParameter.ParameterName = "@TaskCategoryId";
       categoryIdParameter.Value = this.GetCategoryId();
 
+      SqlParameter dateParameter = new SqlParameter();
+      dateParameter.ParameterName = "@TaskDueDate";
+      dateParameter.Value = this.GetDescription();
+
       cmd.Parameters.Add(descriptionParameter);
       cmd.Parameters.Add(categoryIdParameter);
+      cmd.Parameters.Add(dateParameter);
 
       rdr = cmd.ExecuteReader();
 
@@ -150,6 +155,7 @@ namespace ToDoList
       int foundTaskCategoryId = 0;
       DateTime foundDueDate = new DateTime(1996, 01, 01);
 
+      Console.WriteLine(foundDueDate);
       while(rdr.Read())
       {
         foundTaskId = rdr.GetInt32(0);
