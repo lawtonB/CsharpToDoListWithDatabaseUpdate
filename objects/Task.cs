@@ -11,12 +11,14 @@ namespace ToDoList
     private int _id;
     private string _description;
     private int _categoryId;
+    private DateTime _dueDate;
 
-    public Task(string Description, int CategoryId, int Id = 0)
+    public Task(string Description, int CategoryId, DateTime dueDate, int Id = 0)
     {
       _id = Id;
       _description = Description;
       _categoryId = CategoryId;
+      _dueDate = dueDate;
     }
 
     public override bool Equals(System.Object otherTask)
@@ -55,7 +57,14 @@ namespace ToDoList
     {
       _description = newDescription;
     }
-
+    public string GetDate()
+    {
+      return _dueDate;
+    }
+    public void SetDate(string dueDate)
+    {
+      _dueDate = dueDate;
+    }
     public static List<Task> GetAll()
     {
       List<Task> AllTasks = new List<Task>{};
@@ -72,7 +81,8 @@ namespace ToDoList
         int taskId = rdr.GetInt32(0);
         string taskDescription = rdr.GetString(1);
         int taskCategoryId = rdr.GetInt32(2);
-        Task newTask = new Task(taskDescription, taskCategoryId, taskId);
+        string taskDueDate = rdr.GetString(3);
+        Task newTask = new Task(taskDescription, taskCategoryId, taskId, taskDueDate);
         AllTasks.Add(newTask);
       }
       if (rdr != null)
@@ -137,14 +147,16 @@ namespace ToDoList
       int foundTaskId = 0;
       string foundTaskDescription = null;
       int foundTaskCategoryId = 0;
+      int foundDueDate = 0;
 
       while(rdr.Read())
       {
         foundTaskId = rdr.GetInt32(0);
         foundTaskDescription = rdr.GetString(1);
         foundTaskCategoryId = rdr.GetInt32(2);
+        foundDueDate = rdr.GetString(3);
       }
-      Task foundTask = new Task(foundTaskDescription, foundTaskCategoryId, foundTaskId);
+      Task foundTask = new Task(foundTaskDescription, foundTaskCategoryId, foundTaskId, foundDueDate);
 
       if (rdr != null)
       {
