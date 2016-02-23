@@ -11,14 +11,14 @@ namespace ToDoList
     private int _id;
     private string _description;
     private int _categoryId;
-    private DateTime _dueDate;
+    private DateTime _dueDateTime;
 
-    public Task(string Description, int CategoryId, DateTime dueDate, int Id = 0)
+    public Task(string Description, int CategoryId, DateTime dueDateTime, int Id = 0)
     {
       _id = Id;
       _description = Description;
       _categoryId = CategoryId;
-      _dueDate = dueDate;
+      _dueDateTime = dueDateTime;
     }
 
     public override bool Equals(System.Object otherTask)
@@ -32,8 +32,8 @@ namespace ToDoList
         Task newTask = (Task) otherTask;
         bool idEquality = (this.GetId() == newTask.GetId());
         bool descriptionEquality = (this.GetDescription() == newTask.GetDescription());
-        bool dateEquality = (this.GetDate() == newTask.GetDate());
-        return (descriptionEquality && descriptionEquality && dateEquality);
+        bool DateTimeEquality = (this.GetDateTime() == newTask.GetDateTime());
+        return (descriptionEquality && descriptionEquality && DateTimeEquality);
       }
     }
 
@@ -58,13 +58,13 @@ namespace ToDoList
     {
       _description = newDescription;
     }
-    public DateTime GetDate()
+    public DateTime GetDateTime()
     {
-      return _dueDate;
+      return _dueDateTime;
     }
-    public void SetDate(DateTime dueDate)
+    public void SetDateTime(DateTime dueDateTime)
     {
-      _dueDate = dueDate;
+      _dueDateTime = dueDateTime;
     }
     public static List<Task> GetAll()
     {
@@ -82,8 +82,8 @@ namespace ToDoList
         int taskId = rdr.GetInt32(0);
         string taskDescription = rdr.GetString(1);
         int taskCategoryId = rdr.GetInt32(2);
-        DateTime taskDueDate = rdr.GetDateTime(3);
-        Task newTask = new Task(taskDescription, taskCategoryId, taskDueDate, taskId);
+        DateTime taskDueDateTime = rdr.GetDateTime(3);
+        Task newTask = new Task(taskDescription, taskCategoryId, taskDueDateTime, taskId);
         AllTasks.Add(newTask);
       }
       if (rdr != null)
@@ -103,7 +103,7 @@ namespace ToDoList
       SqlDataReader rdr;
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("INSERT INTO tasks (description, category_id, due_date) OUTPUT INSERTED.id VALUES (@TaskDescription, @TaskCategoryId, @TaskDueDate);", conn);
+      SqlCommand cmd = new SqlCommand("INSERT INTO tasks (description, category_id, due_date) OUTPUT INSERTED.id VALUES (@TaskDescription, @TaskCategoryId, @TaskDueDateTime);", conn);
 
       SqlParameter descriptionParameter = new SqlParameter();
       descriptionParameter.ParameterName = "@TaskDescription";
@@ -113,13 +113,13 @@ namespace ToDoList
       categoryIdParameter.ParameterName = "@TaskCategoryId";
       categoryIdParameter.Value = this.GetCategoryId();
 
-      SqlParameter dateParameter = new SqlParameter();
-      dateParameter.ParameterName = "@TaskDueDate";
-      dateParameter.Value = this.GetDescription();
+      SqlParameter DateTimeParameter = new SqlParameter();
+      DateTimeParameter.ParameterName = "@TaskDueDateTime";
+      DateTimeParameter.Value = this.GetDateTime();
 
       cmd.Parameters.Add(descriptionParameter);
       cmd.Parameters.Add(categoryIdParameter);
-      cmd.Parameters.Add(dateParameter);
+      cmd.Parameters.Add(DateTimeParameter);
 
       rdr = cmd.ExecuteReader();
 
@@ -153,17 +153,17 @@ namespace ToDoList
       int foundTaskId = 0;
       string foundTaskDescription = null;
       int foundTaskCategoryId = 0;
-      DateTime foundDueDate = new DateTime(1996, 01, 01);
+      DateTime foundDueDateTime = new DateTime(1996-01-01);
 
-      Console.WriteLine(foundDueDate);
+      Console.WriteLine(foundDueDateTime);
       while(rdr.Read())
       {
         foundTaskId = rdr.GetInt32(0);
         foundTaskDescription = rdr.GetString(1);
         foundTaskCategoryId = rdr.GetInt32(2);
-        foundDueDate = rdr.GetDateTime(3);
+        foundDueDateTime = rdr.GetDateTime(3);
       }
-      Task foundTask = new Task(foundTaskDescription, foundTaskCategoryId, foundDueDate, foundTaskId);
+      Task foundTask = new Task(foundTaskDescription, foundTaskCategoryId, foundDueDateTime, foundTaskId);
 
       if (rdr != null)
       {
