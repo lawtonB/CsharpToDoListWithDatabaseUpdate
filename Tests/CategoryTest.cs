@@ -12,16 +12,16 @@ namespace ToDoList
     {
       DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=todo_test;Integrated Security=SSPI;";
     }
-
-    [Fact]
-    public void Test_CategoriesEmptyAtFirst()
-    {
-      //Arrange, Act
-      int result = Category.GetAll().Count;
-
-      //Assert
-      Assert.Equal(0, result);
-    }
+    //
+    // [Fact]
+    // public void Test_CategoriesEmptyAtFirst()
+    // {
+    //   //Arrange, Act
+    //   int result = Category.GetAll().Count;
+    //
+    //   //Assert
+    //   Assert.Equal(0, result);
+    // }
 
     [Fact]
     public void Test_Equal_ReturnsTrueForSameName()
@@ -80,23 +80,23 @@ namespace ToDoList
       Assert.Equal(testCategory, foundCategory);
     }
 
-    // [Fact]
-    // public void Test_GetTasks_RetrievesAllTasksWithCategory()
-    // {
-    //   Category testCategory = new Category("Household chores");
-    //   testCategory.Save();
-    //
-    //   Task firstTask = new Task("Mow the lawn", new DateTime(2014, 01, 01),1);
-    //   firstTask.Save();
-    //   Task secondTask = new Task("Do the dishes", new DateTime(2014, 01, 01),1);
-    //   secondTask.Save();
-    //
-    //
-    //   List<Task> testTaskList = new List<Task> {firstTask, secondTask};
-    //   List<Task> resultTaskList = testCategory.GetTasks();
-    //
-    //   Assert.Equal(testTaskList, resultTaskList);
-    // }
+    [Fact]
+    public void Test_GetTasks_RetrievesAllTasksWithCategory()
+    {
+      Category testCategory = new Category("Household chores");
+      testCategory.Save();
+
+      Task firstTask = new Task("Mow the lawn", new DateTime(2014, 01, 01),1);
+      firstTask.Save();
+      Task secondTask = new Task("Do the dishes", new DateTime(2014, 01, 01),1);
+      secondTask.Save();
+
+
+      List<Task> testTaskList = new List<Task> {firstTask, secondTask};
+      List<Task> resultTaskList = testCategory.GetTasks();
+
+      Assert.Equal(testTaskList, resultTaskList);
+    }
 
     [Fact]
     public void Test_Delete_DeletesCategoryFromDatabase()
@@ -140,8 +140,6 @@ namespace ToDoList
       //Assert
       Assert.Equal(testTaskCategories, resultTaskCategories);
     }
-
-    [Fact]
     public void Dispose()
     {
       Task.DeleteAll();

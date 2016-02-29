@@ -70,7 +70,7 @@ namespace ToDoList
       {
         int taskId = rdr.GetInt32(0);
         string taskDescription = rdr.GetString(1);
-        DateTime taskDueDateTime = rdr.GetDateTime(3);
+        DateTime taskDueDateTime = rdr.GetDateTime(2);
         Task newTask = new Task(taskDescription, taskDueDateTime, taskId);
         AllTasks.Add(newTask);
       }
@@ -142,7 +142,7 @@ namespace ToDoList
       {
         foundTaskId = rdr.GetInt32(0);
         foundTaskDescription = rdr.GetString(1);
-        foundDueDateTime = rdr.GetDateTime(3);
+        foundDueDateTime = rdr.GetDateTime(2);
       }
       Task foundTask = new Task(foundTaskDescription, foundDueDateTime, foundTaskId);
 
