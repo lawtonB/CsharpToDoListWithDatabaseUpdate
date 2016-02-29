@@ -29,63 +29,128 @@ namespace ToDoList
     public void Test_Equal_ReturnsTrueIfDescriptionsAreTheSame()
     {
       //Arrange, Act
-      Task firstTask = new Task("Mow the lawn", 1, new DateTime(2014, 01, 01));
-      Task secondTask = new Task("Mow the lawn", 1, new DateTime(2014, 01, 01));
+      Task firstTask = new Task("Mow the lawn", new DateTime(2014, 01, 01));
+      Task secondTask = new Task("Mow the lawn", new DateTime(2014, 01, 01));
 
       //Assert
       Assert.Equal(firstTask, secondTask);
     }
 
+    // [Fact]
+    // public void Test_Save_SavesToDatabase()
+    // {
+    //   //Arrange
+    //   Task testTask = new Task("Mow the lawn", new DateTime(2014, 01, 01));
+    //
+    //   //Act
+    //   testTask.Save();
+    //   List<Task> result = Task.GetAll();
+    //   List<Task> testList = new List<Task>{testTask};
+    //
+    //   //Assert
+    //   Assert.Equal(testList, result);
+    // }
+
+    // [Fact]
+    // public void Test_Save_AssignsIdToObject()
+    // {
+    //   //Arrange
+    //   Task testTask = new Task("Mow the lawn", new DateTime(2014, 01, 01));
+    //
+    //   //Act
+    //   testTask.Save();
+    //   Task savedTask = Task.GetAll()[0];
+    //
+    //   int result = savedTask.GetId();
+    //   int testId = testTask.GetId();
+    //
+    //   //Assert
+    //   Assert.Equal(testId, result);
+    // }
+
+    // [Fact]
+    // public void Test_Find_FindsTaskInDatabase()
+    // {
+    //  //Arrange
+    //  Task testTask = new Task("Mow the lawn", new DateTime(2014, 01, 01));
+    //  testTask.Save();
+    //
+    //
+    //  //Act
+    //  Task foundTask = Task.Find(testTask.GetId());
+    //
+    //  //Assert
+    //  Assert.Equal(testTask, foundTask);
+    // }
+
     [Fact]
-    public void Test_Save_SavesToDatabase()
+    public void Test_AddCategory_AddsCategoryToTask()
     {
       //Arrange
-      Task testTask = new Task("Mow the lawn", 1, new DateTime(2014, 01, 01));
+      Task testTask = new Task("Mow the lawn", new DateTime(2014, 01, 01));
+      testTask.Save();
+
+      Category testCategory = new Category("Home stuff");
+      testCategory.Save();
 
       //Act
-      testTask.Save();
-      List<Task> result = Task.GetAll();
-      List<Task> testList = new List<Task>{testTask};
+      testTask.AddCategory(testCategory);
+
+      List<Category> result = testTask.GetCategories();
+      List<Category> testList = new List<Category>{testCategory};
 
       //Assert
       Assert.Equal(testList, result);
     }
 
     [Fact]
-    public void Test_Save_AssignsIdToObject()
+    public void Test_GetCategories_ReturnsAllTaskCategories()
     {
       //Arrange
-      Task testTask = new Task("Mow the lawn", 1, new DateTime(2014, 01, 01));
+      Task testTask = new Task("Mow the lawn", new DateTime(2014, 01, 01));
+      testTask.Save();
+
+      Category testCategory1 = new Category("Home stuff");
+      testCategory1.Save();
+
+      Category testCategory2 = new Category("Work stuff");
+      testCategory2.Save();
 
       //Act
-      testTask.Save();
-      Task savedTask = Task.GetAll()[0];
-
-      int result = savedTask.GetId();
-      int testId = testTask.GetId();
+      testTask.AddCategory(testCategory1);
+      List<Category> result = testTask.GetCategories();
+      List<Category> testList = new List<Category> {testCategory1};
 
       //Assert
-      Assert.Equal(testId, result);
+      Assert.Equal(testList, result);
     }
 
     [Fact]
-    public void Test_Find_FindsTaskInDatabase()
+    public void Test_Delete_DeletesTaskAssociationsFromDatabase()
     {
-     //Arrange
-     Task testTask = new Task("Mow the lawn", 1, new DateTime(2014, 01, 01));
-     testTask.Save();
+      //Arrange
+      Category testCategory = new Category("Home stuff");
+      testCategory.Save();
 
+      string testDescription = "Mow the lawn";
+      Task testTask = new Task(testDescription, new DateTime(2014, 01, 01));
+      testTask.Save();
 
-     //Act
-     Task foundTask = Task.Find(testTask.GetId());
+      //Act
+      testTask.AddCategory(testCategory);
+      testTask.Delete();
 
-     //Assert
-     Assert.Equal(testTask, foundTask);
+      List<Task> resultCategoryTasks = testCategory.GetTasks();
+      List<Task> testCategoryTasks = new List<Task> {};
+
+      //Assert
+      Assert.Equal(testCategoryTasks, resultCategoryTasks);
     }
 
     public void Dispose()
     {
       Task.DeleteAll();
     }
+
   }
 }
