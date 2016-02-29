@@ -7,7 +7,7 @@
   <ul>
     @foreach (var task in @Model["categoryTasks"])
     {
-      <li>@task.GetDescription()</li>
+      <li>@task.GetDescription() @task.GetDateTime()</li>
     }
   </ul>
 }
