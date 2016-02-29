@@ -38,6 +38,9 @@ namespace ToDoList
         newCategory.Save();
         return View["success.cshtml"];
       };
+
+      window.location.href = "/task/id/checked";
+
       Get["tasks/{id}"] = parameters => {
         Dictionary<string, object> model = new Dictionary<string, object>();
         Task SelectedTask = Task.Find(parameters.id);

@@ -167,7 +167,7 @@ namespace ToDoList
           int thisTaskId = queryReader.GetInt32(0);
           string taskDescription = queryReader.GetString(1);
           DateTime taskDateTime = queryReader.GetDateTime(2);
-          bool taskCompleted = queryReader.GetBoolean(3);
+          bool taskCompleted = queryReader.GetBoolean(3) == true;
           Task foundTask = new Task(taskDescription, taskDateTime, taskCompleted, thisTaskId);
           tasks.Add(foundTask);
         }

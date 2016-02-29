@@ -85,7 +85,8 @@ namespace ToDoList
         int taskId = rdr.GetInt32(0);
         string taskDescription = rdr.GetString(1);
         DateTime taskDueDateTime = rdr.GetDateTime(2);
-        bool TaskCompleted = rdr.GetBoolean(3);
+        bool TaskCompleted = rdr.GetBoolean(3) == true;
+        Console.WriteLine(TaskCompleted);
         Task newTask = new Task(taskDescription, taskDueDateTime, TaskCompleted, taskId);
         AllTasks.Add(newTask);
       }
@@ -97,6 +98,7 @@ namespace ToDoList
       {
         conn.Close();
       }
+
       return AllTasks;
     }
 
@@ -158,13 +160,12 @@ namespace ToDoList
       DateTime foundDueDateTime = new DateTime(1996-01-01);
       bool foundTaskCompleted = false;
 
-      Console.WriteLine(foundDueDateTime);
       while(rdr.Read())
       {
         foundTaskId = rdr.GetInt32(0);
         foundTaskDescription = rdr.GetString(1);
         foundDueDateTime = rdr.GetDateTime(2);
-        foundTaskCompleted = rdr.GetBoolean(3);
+        foundTaskCompleted = rdr.GetBoolean(3) == true;
       }
       Task foundTask = new Task(foundTaskDescription, foundDueDateTime, foundTaskCompleted, foundTaskId);
 

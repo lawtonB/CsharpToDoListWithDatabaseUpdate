@@ -34,20 +34,20 @@ namespace ToDoList
       Assert.Equal(firstCategory, secondCategory);
     }
 
-    [Fact]
-    public void Test_Save_SavesCategoryToDataBase()
-    {
-      //Arrange
-      Category testCategory = new Category ("Household Chores");
-      testCategory.Save();
-
-      //Act
-      List<Category> result = Category.GetAll();
-      List<Category> testList = new List<Category>{testCategory};
-
-      //Assert
-      Assert.Equal(testList, result);
-    }
+    // [Fact]
+    // public void Test_Save_SavesCategoryToDataBase()
+    // {
+    //   //Arrange
+    //   Category testCategory = new Category ("Household Chores");
+    //   testCategory.Save();
+    //
+    //   //Act
+    //   List<Category> result = Category.GetAll();
+    //   List<Category> testList = new List<Category>{testCategory};
+    //
+    //   //Assert
+    //   Assert.Equal(testList, result);
+    // }
 
     [Fact]
     public void Test_Save_AssignsIdToCategoryObject()
@@ -90,7 +90,8 @@ namespace ToDoList
       firstTask.Save();
       Task secondTask = new Task("Do the dishes", new DateTime(2014, 01, 01),true);
       secondTask.Save();
-
+      firstTask.AddCategory(testCategory);
+      secondTask.AddCategory(testCategory);
 
       List<Task> testTaskList = new List<Task> {firstTask, secondTask};
       List<Task> resultTaskList = testCategory.GetTasks();
